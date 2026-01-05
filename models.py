@@ -19,9 +19,6 @@ class TransactionCreate(TransactionBase):
 class TransactionUpdate(TransactionBase):
     label_ids: list[int] = Field(default_factory=list)
 
-class TransactionReadWithLabels(TransactionBase):
-    labels: list[Label] = Field(default_factory=list)
-
 class LabelBase(SQLModel):
     name: str = Field(default="")
 
@@ -42,3 +39,6 @@ class Transaction(TransactionBase, table=True):
 class Label(LabelBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     transactions: list["Transaction"] = Relationship(back_populates="labels", link_model=TransactionLabel)
+
+class TransactionReadWithLabels(TransactionBase):
+    labels: list[Label] = Field(default_factory=list)

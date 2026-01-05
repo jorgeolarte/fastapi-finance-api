@@ -34,7 +34,8 @@ async def update_label(label_id: int, label_data: LabelUpdate, session: SessionD
     label_db = session.get(Label, label_id)
     if not label_db:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Label not found")
-    label_db = Label.model_validate(label_data)
+    label_data_dict = label_data.model_dump(exclude_unset=True)
+    label_db.sqlmodel_update(label_data_dict)
     session.add(label_db)
     session.commit()
     session.refresh(label_db)

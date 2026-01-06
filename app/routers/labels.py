@@ -27,7 +27,6 @@ async def delete_label(label_id: int, session: SessionDep):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Label not found")
     session.delete(label)
     session.commit()
-    return {"detail": "Label deleted"}
 
 @router.patch("/{label_id}", response_model=Label, status_code=status.HTTP_200_OK)
 async def update_label(label_id: int, label_data: LabelUpdate, session: SessionDep):

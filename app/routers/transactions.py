@@ -32,7 +32,7 @@ async def delete_transaction(transaction_id: int, session: SessionDep):
     session.commit()
     return {"detail": "Transaction deleted"}
 
-@router.patch("/{transaction_id}", response_model=TransactionReadWithLabels, status_code=status.HTTP_201_CREATED)
+@router.patch("/{transaction_id}", response_model=TransactionReadWithLabels)
 async def update_transaction(transaction_id: int, transaction_in: TransactionUpdate, session: SessionDep):
     transaction_db = session.get(Transaction, transaction_id)
     if not transaction_db:

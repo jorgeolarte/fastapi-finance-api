@@ -29,7 +29,7 @@ async def delete_label(label_id: int, session: SessionDep):
     session.commit()
     return {"detail": "Label deleted"}
 
-@router.patch("/{label_id}", response_model=Label, status_code=status.HTTP_201_CREATED)
+@router.patch("/{label_id}", response_model=Label, status_code=status.HTTP_200_OK)
 async def update_label(label_id: int, label_data: LabelUpdate, session: SessionDep):
     label_db = session.get(Label, label_id)
     if not label_db:

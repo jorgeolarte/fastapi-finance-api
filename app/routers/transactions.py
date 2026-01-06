@@ -23,7 +23,7 @@ async def read_transaction(transaction_id: int, session: SessionDep):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
     return transaction
 
-@router.delete("/{transaction_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{transaction_id}", status_code=status.HTTP_200_OK)
 async def delete_transaction(transaction_id: int, session: SessionDep):
     transaction = session.get(Transaction, transaction_id)
     if not transaction:

@@ -18,7 +18,7 @@ async def add_label_to_transaction(transaction_id: int, label_id: int, session: 
     session.commit()
     return {"detail": "Label added to transaction"}
 
-@router.delete("/{transaction_id}/labels/{label_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{transaction_id}/labels/{label_id}", status_code=status.HTTP_200_OK)
 async def remove_label_from_transaction(transaction_id: int, label_id: int, session: SessionDep):
     transaction_db = session.get(Transaction, transaction_id)
     if not transaction_db:

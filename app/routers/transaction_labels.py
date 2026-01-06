@@ -5,7 +5,7 @@ from fastapi import status, APIRouter, HTTPException
 
 router = APIRouter(prefix="/api/transactions", tags=["transaction_labels"])
 
-@router.post("/{transaction_id}/labels/{label_id}", status_code=status.HTTP_200_OK)
+@router.post("/{transaction_id}/labels/{label_id}", status_code=status.HTTP_201_CREATED)
 async def add_label_to_transaction(transaction_id: int, label_id: int, session: SessionDep):
     transaction_db = session.get(Transaction, transaction_id)
     if not transaction_db:

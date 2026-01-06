@@ -5,7 +5,7 @@ from db import SessionDep
 
 router = APIRouter(prefix="/api/labels", tags=["labels"])
 
-@router.post("/", response_model=Label)
+@router.post("/", response_model=Label, status_code=status.HTTP_201_CREATED)
 async def create_label(label: LabelCreate, session: SessionDep):
     label_db = Label.model_validate(label)
     session.add(label_db)
@@ -13,7 +13,7 @@ async def create_label(label: LabelCreate, session: SessionDep):
     session.refresh(label_db)
     return label_db
 
-@router.get("/{label_id}", response_model=Label)
+@router.get("/{label_id}", response_model=Label, status_code=status.HTTP_200_OK)
 async def read_label(label_id: int, session: SessionDep):
     label = session.get(Label, label_id)
     if not label:
@@ -40,6 +40,6 @@ async def update_label(label_id: int, label_data: LabelUpdate, session: SessionD
     session.refresh(label_db)
     return label_db
 
-@router.get("/", response_model=list[Label])
+@router.get("/", response_model=list[Label], status_code=status.HTTP_200_OK)
 async def list_labels(session: SessionDep):
     return session.exec(select(Label)).all()

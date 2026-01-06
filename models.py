@@ -41,4 +41,5 @@ class Label(LabelBase, table=True):
     transactions: list["Transaction"] = Relationship(back_populates="labels", link_model=TransactionLabel)
 
 class TransactionReadWithLabels(TransactionBase):
+    id: int
     labels: list[Label] = Field(default_factory=list)

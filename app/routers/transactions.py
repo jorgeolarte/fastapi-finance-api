@@ -6,7 +6,7 @@ from fastapi import status, APIRouter, HTTPException
 
 router = APIRouter(prefix="/api/transactions", tags=["transactions"])
 
-@router.post("/", response_model=TransactionReadWithLabels)
+@router.post("/", response_model=TransactionReadWithLabels, status_code=status.HTTP_201_CREATED)
 async def create_transaction(transaction_in: TransactionCreate, session: SessionDep):
     transaction_db = Transaction.model_validate(transaction_in)
     if transaction_in.label_ids:
@@ -16,7 +16,7 @@ async def create_transaction(transaction_in: TransactionCreate, session: Session
     session.refresh(transaction_db)
     return transaction_db
 
-@router.get("/{transaction_id}", response_model=TransactionReadWithLabels)
+@router.get("/{transaction_id}", response_model=TransactionReadWithLabels, status_code=status.HTTP_200_OK)
 async def read_transaction(transaction_id: int, session: SessionDep):
     transaction = session.get(Transaction, transaction_id)
     if not transaction:
@@ -32,7 +32,7 @@ async def delete_transaction(transaction_id: int, session: SessionDep):
     session.commit()
     return {"detail": "Transaction deleted"}
 
-@router.patch("/{transaction_id}", response_model=TransactionReadWithLabels)
+@router.patch("/{transaction_id}", response_model=TransactionReadWithLabels, status_code=status.HTTP_200_OK)
 async def update_transaction(transaction_id: int, transaction_in: TransactionUpdate, session: SessionDep):
     transaction_db = session.get(Transaction, transaction_id)
     if not transaction_db:
@@ -44,6 +44,6 @@ async def update_transaction(transaction_id: int, transaction_in: TransactionUpd
     session.refresh(transaction_db)
     return transaction_db
 
-@router.get("/", response_model=list[TransactionReadWithLabels])
+@router.get("/", response_model=list[TransactionReadWithLabels], status_code=status.HTTP_200_OK)
 async def list_transactions(session: SessionDep):
     return session.exec(select(Transaction)).all()
